@@ -7,10 +7,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use App\Router\Router;
 use App\Controllers\UserController;
 use App\Controllers\ViewController;
-
 use App\Http\Request;
 use App\Http\JsonResponse;
-
+use App\Middleware\AuthMiddleware;
 
 /**
  * Bootstrap the application
@@ -21,11 +20,12 @@ function bootstrapApplication(): Router
 {
     $router = new Router();
 
-    // Define routes
-    $router->addRoute('GET', '/users', [UserController::class, 'index']);
-    $router->addRoute('GET', '/users/{id}', [UserController::class, 'show']);
-    $router->addRoute('POST', '/users', [UserController::class, 'create']);
-
+    // Define a group of routes with a common prefix and middleware
+    $router->group('/users', [new AuthMiddleware()], function (Router $router) {
+        $router->addRoute('GET', '/', [UserController::class, 'index']);
+        $router->addRoute('GET', '/{id}', [UserController::class, 'show']);
+        $router->addRoute('POST', '/', [UserController::class, 'create']);
+    });
 
     //Views
     $router->addRoute('GET', '/presentation', [ViewController::class, 'presentation']);

@@ -6,6 +6,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Router\Router;
 use App\Controllers\UserController;
+use App\Controllers\ViewController;
+
 use App\Http\Request;
 use App\Http\JsonResponse;
 
@@ -23,6 +25,11 @@ function bootstrapApplication(): Router
     $router->addRoute('GET', '/users', [UserController::class, 'index']);
     $router->addRoute('GET', '/users/{id}', [UserController::class, 'show']);
     $router->addRoute('POST', '/users', [UserController::class, 'create']);
+
+
+    //Views
+    $router->addRoute('GET', '/presentation', [ViewController::class, 'presentation']);
+    $router->addRoute('GET', '/user', [ViewController::class, 'user']);
 
     return $router;
 }

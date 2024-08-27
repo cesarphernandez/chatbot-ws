@@ -13,7 +13,7 @@ class JsonResponse
      * @param int $statusCode
      * @return string
      */
-    public static function build($data, int $statusCode = 200): string
+    public static function build(mixed $data, int $statusCode = 200): string
     {
         http_response_code($statusCode);
         header('Content-Type: application/json');

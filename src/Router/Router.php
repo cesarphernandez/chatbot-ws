@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Router;
 
+use App\Controllers\ViewController;
 use App\Http\Request;
 use Exception;
 
@@ -119,7 +120,6 @@ class Router
 
     private function handleNotFound(): void
     {
-        http_response_code(404);
-        echo json_encode(['error' => 'Not Found']);
+        echo ViewController::notFound();
     }
 }

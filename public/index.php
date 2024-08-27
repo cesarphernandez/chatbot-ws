@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use App\Controllers\WebhookController;
+use App\Middleware\VerifyWebhookSignature;
 use App\Router\Router;
 use App\Controllers\UserController;
 use App\Controllers\ViewController;
@@ -20,7 +22,9 @@ function bootstrapApplication(): Router
 {
     $router = new Router();
 
-    // Define a group of routes with a common prefix and middleware
+    $router->addRoute('GET', '/webhook/whatsapp', [WebhookController::class, 'handleWhatsAppWebhook'], [new VerifyWebhookSignature()]);
+
+
     $router->group('/users', [new AuthMiddleware()], function (Router $router) {
         $router->addRoute('GET', '/', [UserController::class, 'index']);
         $router->addRoute('GET', '/{id}', [UserController::class, 'show']);

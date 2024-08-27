@@ -1,5 +1,5 @@
 # Definir variables
-PHP_SERVER = php -S localhost:8000 -t code/public
+PHP_SERVER = php -S localhost:8000 -t public
 NGROK = ngrok http 8000
 
 # Comando por defecto

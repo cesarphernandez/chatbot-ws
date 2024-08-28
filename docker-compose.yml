@@ -15,3 +15,4 @@ services:
     build: .
     volumes:
       - ./code:/var/www/html
+    entrypoint: /bin/bash -c "composer install && php-fpm"

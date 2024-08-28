@@ -6,9 +6,9 @@ echo __DIR__;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use App\Router\Router;
 use App\Controllers\WebhookController;
 use App\Middleware\VerifyWebhookSignature;
-use App\Router\Router;
 use App\Controllers\UserController;
 use App\Controllers\ViewController;
 use App\Http\Request;

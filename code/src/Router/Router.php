@@ -32,7 +32,7 @@ class Router
     {
         // Prepend group prefix to the path if a group is active
         if ($this->groupPrefix) {
-            $path = rtrim($this->groupPrefix, '/') . '/' . ltrim($path, '/');
+            $path = rtrim($this->groupPrefix, '/') . 'Router.php/' . ltrim($path, '/');
         }
 
         // Merge group middleware with route-specific middleware

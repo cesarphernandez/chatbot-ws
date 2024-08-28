@@ -19,13 +19,16 @@ class WebhookController
 
     public function handleWhatsAppWebhook(Request $request): string
     {
-        $payload = $request->getBody();
+        $input = file_get_contents('php://input');
+        $payload = json_decode($input, true);
+
+        $hubChallenge = $request->getQueryParam('hub_challenge');
 
         // Aquí puedes manejar diferentes tipos de eventos según lo que envíe WhatsApp
         if (isset($payload['messages'])) {
             $this->whatsAppService->handleIncomingMessages($payload['messages']);
         }
 
-        return JsonResponse::send(['status' => 'received'], 200);
+        return $hubChallenge;
     }
 }

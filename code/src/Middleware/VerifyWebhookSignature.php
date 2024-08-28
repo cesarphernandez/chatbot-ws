@@ -11,23 +11,21 @@ class VerifyWebhookSignature implements Middleware
 {
     public function handle(Request $request, callable $next): string
     {
-        $signature = $request->getHeader('X-Hub-Signature');
-        if (!$signature) {
-            return JsonResponse::error('Missing signature', 400);
+        $verifyToken= $request->getQueryParam('hub_verify_token');
+        if (!isset($verifyToken)) {
+            return JsonResponse::error('Invalid request', 400);
         }
-        $payload = file_get_contents('php://input');
-        $secret = 'test-de-prueba';
 
-        if (!$this->isValidSignature($signature, $payload, $secret)) {
-            return JsonResponse::error('Invalid signature', 403);
+        if (!$this->isValidToken($verifyToken)) {
+            return JsonResponse::error('Invalid token', 403);
         }
 
         return $next($request);
     }
 
-    private function isValidSignature(string $signature, string $payload, string $secret): bool
+    private function isValidToken(string $verifyToken): bool
     {
-        $expectedHash = 'sha1=' . hash_hmac('sha1', $payload, $secret);
-        return hash_equals($expectedHash, $signature);
+        $token = 'test-de-prueba';
+        return $verifyToken === $token;
     }
 }
